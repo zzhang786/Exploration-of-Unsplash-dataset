@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script>
+		//color;  kw; camera; country
+		var selections = new Array("darkolivegreen", "flower",  "canon", "France");
+
+		// name: html name; obj: the selected element, idx: the index of the var in selections
+		function update(name, obj, idx) {
+			var idx2 = obj.selectedIndex;
+			var obj2 = document.getElementsByName(name);
+			for(var i = 0; i < obj2.length; i++){
+				obj2[i].selectedIndex = idx2;
+				selections[idx] = obj.value;
+			}
+		}
+		// show bar plots based on user inputs
+		function barcreate(){
+			obj = document.getElementById('barimg');
+			obj.src="barplots/"+selections[0]+"_"+selections[1]+"_"+selections[2]+".png";
+			obj.title="Prediction for "+selections[0]+" "+selections[1]+" "+selections[2];
+		}
+		// show pictures based on user inputs
+		function piccreate(){
+			obj = document.getElementById('picimg');
+			words = selections[3].split(" ");
+			if  (words.length > 1){
+				obj.src="picplots/"+selections[0]+"_"+selections[1]+"_"+words[0]+"_"+words[1]+".jpeg";
+				
+			}
+			else{
+				obj.src="picplots/"+selections[0]+"_"+selections[1]+"_"+selections[3]+".jpeg";
+			}
+			obj.title="Prediction for "+selections[0]+" "+selections[1]+" "+selections[3];
+			// const fs = require("fs"); // Or `import fs from "fs";` with ESM
+			// if (fs.existsSync(path)) {
+    
+			// 	obj.src="picplots/"+selections[0]+"_"+selections[1]+"_"+selections[2]+"_"+country+".jpeg";
+			// 	obj.title="Prediction for "+selections[0]+" "+selections[1]+" "+selections[2]+" "+selections[3];
+		
+			// } else {
+
+			// }
+
+		}
+		function corrcreate(){
+			obj_l = document.getElementsByName('category');
+			obj_l1 = document.getElementsByName('category2');
+			obj2 = document.getElementById('corrimg');
+			src = "corrplots/";
+			for(var i = 0; i < obj_l.length; i++) {
+				if (obj_l[i].checked) {
+					src = src+obj_l[i].value+"_";
+				}
+			}
+			obj2.title="Prediction for "+ src;
+			for(var i = 0; i < obj_l1.length; i++) {
+				if (obj_l1[i].checked) {
+					src = src+obj_l1[i].value;
+				}
+			}
+			src = src + ".png";
+			obj2.src = src;
+
+			// const fs = require("fs"); // Or `import fs from "fs";` with ESM
+			// if (fs.existsSync(path)) {
+    
+			// 	obj.src="picplots/"+selections[0]+"_"+selections[1]+"_"+selections[2]+"_"+country+".jpeg";
+			// 	obj.title="Prediction for "+selections[0]+" "+selections[1]+" "+selections[2]+" "+selections[3];
+		
+			// } else {
+
+			// }
+		}
+
+		
+	</script>
+	   <script>
+       function initMap(){
+           // map options
+            var options={
+                zoom:3, //less will overveiw
+                center:{lat:42.3601,lng:-71.0589}
+            }
+            // New map
+            var map = new
+            google.maps.Map(document.getElementById('map'),options);
+            
+
+            //Array of markers
+            var markers = [
+                    {//Australia
+                        contentString: '<img src="https://images.unsplash.com/photo-1422493757035-1e5e03968f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1555&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:-25.2744,lng:133.7751},
+                        //description:'Sunset over an Australian Beach'
+                        
+                    },
+                    {// Canada 
+                        contentString: '<img src="https://images.unsplash.com/photo-1439853949127-fa647821eba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" style="width:80px;height:110px;">',
+                        coords:{lat:56.1304,lng:-106.3468}
+                       
+                    },
+                    {// Brazil
+                        contentString:'<img src="https://images.unsplash.com/photo-1541447237128-f4cac6138fbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=636&q=80" style="width:80px;height:110px;">',
+                        
+                        coords:{lat:-14.2350,lng:-51.9253}
+                    },
+                     {// China
+                        contentString: '<img src="https://images.unsplash.com/photo-1440227537815-f4476b789291?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80" style="width:200px;height:120px;">',
+                        
+                        coords:{lat:35.8617,lng:104.1954}
+                    },
+                     {// India
+                        contentString: '<img src="https://images.unsplash.com/photo-1487349384428-12b47aca925e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" style="width:200px;height:120px;">',
+                        
+                        coords:{lat:20.5937,lng:78.9629}
+                    },
+                    {// Indonesia
+                        contentString: '<img src="https://images.unsplash.com/photo-1510797215324-95aa89f43c33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" style="width:200px;height:120px;">',
+                        
+                        coords:{lat:-0.7893,lng:113.9213}
+                    },
+                    {// Japan
+                        contentString: '<img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80" style="width:80px;height:110px;">',
+                        
+                        coords:{lat:36.2048,lng:138.2529}
+                    },
+                    {// New Zealand
+                        contentString: '<img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" style="width:200px;height:120px;">',
+                        
+                        coords:{lat:-40.9006,lng:174.8860}
+                    },
+                    {// Russia
+                        contentString: '<img src="https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1602&q=80" style="width:200px;height:120px;">',
+                        
+                        coords:{lat:61.5240,lng:105.3188}
+                    },
+                    {//France
+                        contentString: '<img src="https://images.unsplash.com/photo-1489537235181-fc05daed5805?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:46.2276,lng:2.2137}
+                    },
+                    {//Germany
+                        contentString: '<img src="https://images.unsplash.com/photo-1444760134166-9b8f7d0fc038?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1653&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:51.1657,lng:10.4515}
+                    },
+                    {//Iceland
+                        contentString: '<img src="https://images.unsplash.com/photo-1541599468348-e96984315921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=955&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:64.9631,lng:-19.0208}
+                    },
+                    {//Italy
+                        contentString: '<img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1574&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:41.8719,lng:12.5674}
+                    },
+                    {// Switzerland
+                        contentString: '<img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:46.8182,lng:8.2275}
+                    },
+                    {//United Kingdom
+                        contentString: '<img src="https://images.unsplash.com/photo-1446071103084-c257b5f70672?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=662&q=80" style="width:80px;height:110px;">',
+                        coords:{lat:55.3781,lng:-3.4360}
+                    },
+                    {//US
+                        contentString: '<img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80" style="width:200px;height:120px;">',
+                        coords:{lat:38.0902,lng:-97.7129}
+                        
+                    }
+                
+            ];
+          
+           /*
+          //Add Marker function, we will pass the lat and lg
+          function addMarker(props){
+            var marker = new google.maps.Marker({
+                position:props.coords,
+                map:map,
+                });
+            }
+            */
+             // Loop through markers
+             for(var i = 0; i< markers.length; i++){
+                const infowindow = new google.maps.InfoWindow({
+                content: markers[i].contentString
+                });
+
+                const marker = new google.maps.Marker({
+                    position: markers[i].coords,
+                    map:map,
+
+                });
+                marker.addListener("click", () => {
+                infowindow.open(map, marker);
+                });
+            }
+               
+        
+            /*
+            // Add marker
+            var marker = new google.maps.Marker({
+                position:{lat:42.4668,lng:-70.9495},
+                map:map
+                });
+
+                // for each marker to pop up
+                var infoWindow = new google.maps.infoWindow({
+                    content:'<h1> US </h1>'
+        
+                });
+                //click the marker and display
+                marker.addListener('click',function(){
+                    clientWindow.open(map,marker);
+                });
+
+                */
+            
+                
+                /*
+                //check for custom icon image
+                if(props.iconImage){
+                    //set icon image
+                    marker.setIcon(props.iconImage);
+                }
+                */
+
+                /*
+                //check the content
+                if(props.content){
+                    var infoWindow = new google.maps.InfoWindow({
+                        content:props.content
+                    });
+                    
+                }*/
+          
+       }
+   </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA35Ga80O1BE6xSgVwnRgHPLCaR5556Wgs&callback=initMap">
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <style id="compiled-css" type="text/css">
+
+#submit-logged-out {<!--from ww w . j  a  v a  2s .  c o  m-->
+   background: #000;
+   color: #fff;
+   font-size: 5em;
+   left: 50px;
+   padding: 40px;
+   position: relative;
+   top: 20px;
+}
+.popout {
+   animation: popout 1s ease;
+   -webkit-animation: popout 1s ease;
+}
+@keyframes popout {
+   from{transform:scale(0)}
+   80%{transform:scale(1.2)}
+   to{transform:scale(1)}
+}
+@-webkit-keyframes popout {
+   from{-webkit-transform:scale(0)}
+   80%{-webkit-transform:scale(1.2)}
+   to{-webkit-transform:scale(1)}
+}
+
+
+      </style>
+</head>
+<body>
+
+
+<div id="container">
+	<div id = "intropage" class='center'>
+		<div id="color">
+			<div id="submit-logged-out" class="popout">Explore the world via Unsplash</div>
+			<div class = "center">
+				<input type="text" placeholder="How do people view the word?"/>
+			</div>
+		</div>
+		<div id="member">Tianyuan Zheng, Weijie Chen, Yu Li, Zan Zhang</div>
+	</div>
+
+
+	<!--map page-->
+	<div class ="page">
+		<div class='full'>
+			<div id ="mapleft">
+				<div class="text center"> <img class="pic" src="text3.png" ></div>
+			</div>
+			<div id ="mapright">
+				<div class='text_bar'><b>A general look of the most popular photo of selected places</b></div>
+				<div id="map"></div>
+			</div>
+		</div>
+	</div>
+
+	<!--text1 page-->
+	<div class = "page" >
+		<div class="t_only center"><img src="text4.png"></div>
+	</div>
+
+
+	<!--color select page-->
+
+	<div class = "page" >
+		<div class = "center picb"><img class="pic" src="color.png" ></div>
+		<div class = "center sel_box">
+			<form class = "cform">
+				<select name="color" onchange = "update('color', this,'0')" size="3">
+					<option value="darkolivegreen" selected>darkolivegreen</option>
+					<option value="dimgray">dimgray</option>
+					<option value="gray" >gray</option>
+					<option value="darkslategray" >darkslategray</option>
+					<option value="darkgray">darkgray</option>
+					<option value="black" >black</option>
+
+				</select>
+			</form>
+		</div>
+	</div>
+
+	
+
+	<!--kw select page-->
+	<div class = "page" >
+		<div class = "center picb"><img class="pic" src="kw.png" ></div>
+		<div class = "center sel_box">
+			<form class = "cform">
+				<select name="kw" onchange = "update('kw', this,'1')" size="3">
+					<option value="flower" selected>flower</option>
+					<option value="forest" >forest</option>
+					<option value="mountain" >mountain</option>
+					<option value="sky" >sky</option>
+					<option value="sea" >sea</option>
+					<option value="nature" >nature</option>
+
+				</select>
+			</form>
+		</div>
+	</div>
+
+	<!--camera select page-->
+	<div class = "page" >
+		<div class = "center picb"><img class="pic" src="camera.png" ></div>
+		<div class = "center sel_box">
+			<form class = "cform"> 
+				<select name="cam"onchange = "update('cam', this,'2')" size="3">		
+					<option value="canon" selected>canon</option>
+					<option value="nikon">nikon</option>
+					<option value="sony">sony</option>
+
+				</select>
+			</form>
+		</div>
+	</div>
+
+	<!--barchart page-->
+
+	<div class ="page">
+		<div class='top'>
+			<div class ="left">
+				<div class="text center"> <img class="pic" src="text1.png" ></div>
+				<div class="text center"><img class="pic" src="text2.png" ></div>
+			</div>
+			<div class ="right">
+				<div class='center text_bar'><b>I guess your taste fit in... (top 5 guesses)</b></div>
+				<div id="barb"><img id="barimg" class="center img" src="" title ="" ></div>
+			</div>
+		</div>
+		<div class='bottom'>
+			<div class='bt center'><button type="button" onclick="barcreate()">Show!</button></div>
+
+			<div class = "sec1">
+			    <span>Choose a color:</span> 
+			    <form class = "cform">
+					<select name="color" onchange="update('color',this,'0')" size="3">
+						<option value="darkolivegreen" selected>darkolivegreen</option>
+						<option value="dimgray">dimgray</option>
+						<option value="gray" >gray</option>
+					 <option value="darkslategray" >darkslategray</option>
+						<option value="darkgray">darkgray</option>
+						<option value="black" >black</option>
+					</select>
+				</form>
+			</div>
+			<div class = "sec1">
+			    <span>Choose a keyword: </span> 
+			    <form class = "cform">
+					<select name="kw" onchange="update('kw',this,'1')" size="3">
+						<option value="flower" selected>flower</option>
+						<option value="forest" >forest</option>
+						<option value="mountain" >mountain</option>
+						<option value="sky" >sky</option>
+						<option value="sea" >sea</option>
+						<option value="nature" >nature</option>
+
+					</select>
+				</form>
+			</div>
+			<div class = "sec1">
+			    <span>Choose a camera brand:</span> 
+			    <form class = "cform">
+					<select onchange="update('cam', this,'2')" name="cam" size="3" >		
+						<option value="canon" selected>canon</option>
+						<option value="nikon">nikon</option>
+						<option value="sony">sony</option>
+
+					</select>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--country select page-->
+	<div class = "page" >
+		<div class = "center picb"><img class="pic" src="pre.png" ></div>
+		<div class = "center sel_box">
+			<form class = "cform">
+				<select name="country" onchange="update('country',this,'3')" size="3">
+					<option value="France" selected>France</option>
+					<option value="Italy">Italy</option>
+					<option value="United States">United States</option>
+				</select>
+			</form>
+		</div>
+	</div>
+
+	<!--picture page-->
+	<div class ="page">
+		<div class='top'>
+			<div class='center text_bar'><b>Will this be your favorite photo?</b></div>
+			<div class = "center" id="picpreb"> <img id="picimg" class = "center img" src="" title="" alt ="Click 'Show!' or try new selections."></div>
+		</div>
+		<div class='bottom'>
+			<div class='bt center'><button type="button" onclick="piccreate()">Show!</button></div>
+			<div class = "sec1">
+			    <span>Choose a color:</span> 
+			    <form class = "cform">
+					<select name="color" onchange="update('color',this,'0')" size="3">
+						<option value="darkolivegreen" selected>darkolivegreen</option>
+						<option value="dimgray">dimgray</option>
+						<option value="gray" >gray</option>
+					 <option value="darkslategray" >darkslategray</option>
+						<option value="darkgray">darkgray</option>
+						<option value="black" >black</option>
+					</select>
+				</form>
+			</div>
+			<div class = "sec1">
+			    <span>Choose a keyword: </span> 
+			    <form class = "cform">
+					<select name="kw" onchange="update('kw',this,'1')" size="3">
+						<option value="flower" selected>flower</option>
+						<option value="forest" >forest</option>
+						<option value="mountain" >mountain</option>
+						<option value="sky" >sky</option>
+						<option value="sea" >sea</option>
+						<option value="nature" >nature</option>
+
+					</select>
+				</form>
+			</div>
+			<div class = "sec1">
+			    <span>Choose a place: </span> 
+			    <form class = "cform">
+					<select name="country" onchange="update('country',this,'3')" size="3">
+						<option value="France" selected>France</option>
+						<option value="Italy">Italy</option>
+						<option value="United States">United States</option>
+					</select>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--text2 page-->
+	<div class = "page" >
+		<div class="t_only center"><img src="text5.png"></div>
+	</div>
+
+	<!-- explore page-->
+	<div class ="page">
+		<div class="full">
+			<div id ="corrleft">
+				<div id="box">
+					<div>Choose 3 kweywords:</div>  
+				    <div><input type="checkbox" name="category" value="bird" />bird</div>    
+				    <div><input type="checkbox" name="category" value="flora" />flora</div>
+				    <div><input type="checkbox" name="category" value="human" />human</div>    
+				    <div><input type="checkbox" name="category" value="leaf" />leaf</div>    
+				    <div><input type="checkbox" name="category" value="light" />light</div>    
+				    <div><input type="checkbox" name="category" value="mountain" />mountain</div>
+				    <div>Choose one perplexity:</div>
+				    <div><input type="checkbox" name="category2" value="5" />5</div>
+				    <div><input type="checkbox" name="category2" value="10" />10</div>    
+				    <div><input type="checkbox" name="category2" value="20" />20</div>    
+				    <div><input type="checkbox" name="category2" value="50" />50</div>    
+				    <div><input type="checkbox" name="category2" value="100" />100</div>    
+					<div class='bt center'><button type="button" onclick="corrcreate()">Show!</button></div>
+				</div>
+			</div>
+			<div id ="corrright">
+				<div class='text_bar'><b>Let's explore the correlation among categories!</b></div>
+				<div id ="corr"><img id="corrimg" class = "center img" src="" title=""></div>
+			</div>
+		</div>
+	</div>
+
+	<!--foot page-->
+	<div id = "foot" class='center'>
+		<div> References:</div>
+		<ul>
+		  <li>https://github.com/unsplash/datasets/blob/master/DOCS.md</li>
+		  <li>https://arxiv.org/abs/1212.4522</li>
+		</ul>  
+	</div>
+
+
+</div>
+</body>
+</html> 
